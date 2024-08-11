@@ -7,14 +7,14 @@
 function cancellable(fn, args, t) {
     let timeoutId;
 
-    // Set a timeout to execute the function after `t` milliseconds
+   
     timeoutId = setTimeout(() => {
-        fn(...args); // Execute the function with the provided arguments
+        fn(...args); 
     }, t);
 
-    // Return the cancel function
+ 
     return function cancelFn() {
-        clearTimeout(timeoutId); // Cancel the execution if the cancel function is called
+        clearTimeout(timeoutId); 
     };
 }
 /**
