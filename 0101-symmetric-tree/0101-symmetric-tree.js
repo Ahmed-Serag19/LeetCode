@@ -11,17 +11,22 @@
  * @return {boolean}
  */
 var isSymmetric = function(root) {
-    if (!root) return true; // An empty tree is symmetric
+    if (!root) return true;
 
-    const isMirror = (t1, t2) => {
-        if (!t1 && !t2) return true; // Both nodes are null
-        if (!t1 || !t2) return false; // One node is null, the other isn't
-        return (
-            t1.val === t2.val && // Values must be equal
-            isMirror(t1.left, t2.right) && // Left subtree of t1 mirrors right subtree of t2
-            isMirror(t1.right, t2.left)   // Right subtree of t1 mirrors left subtree of t2
-        );
-    };
+    const queue = [];
+    queue.push(root.left, root.right);
 
-    return isMirror(root.left, root.right);
+    while (queue.length) {
+        const t1 = queue.shift();
+        const t2 = queue.shift();
+
+        if (!t1 && !t2) continue; // Both are null, move to next pair
+        if (!t1 || !t2 || t1.val !== t2.val) return false; // Not symmetric
+
+        // Enqueue children in mirrored order
+        queue.push(t1.left, t2.right);
+        queue.push(t1.right, t2.left);
+    }
+
+    return true;
 };
